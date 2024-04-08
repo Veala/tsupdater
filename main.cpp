@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addVersionOption();
 
-    parser.addPositionalArgument("file", QCoreApplication::translate("args", ".ts file to translate."));
+    parser.addPositionalArgument("srcfile", QCoreApplication::translate("args", "Source translation file."));
+    parser.addPositionalArgument("tsfile", QCoreApplication::translate("args", "TS file to update."));
 
     QCommandLineOption localeOption({"l", "languageCode"}, "Language code ex: \"fe\" or \"fr_CA\"", "pigLatin");
     parser.addOption(localeOption);
@@ -38,18 +39,5 @@ int main(int argc, char *argv[])
     if (args.isEmpty()) {
         parser.showHelp(1);
     }
-
-    const QString translationFile = args[0];
-
-    if (usePigLatin) {
-        PigLatinTranslator translator(translationFile);
-        success = translator.translate();
-    } else {
-        GoogleTranslator translator(locale, translationFile);
-        success = translator.translate();
-    }
-    return success ? 0 : 255;
-
-
-
+    return 0;
 }
