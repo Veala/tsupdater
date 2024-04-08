@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include <QCommandLineParser>
+#include <tsupdaterfeatures.h>
 
 int main(int argc, char *argv[])
 {
@@ -10,15 +10,7 @@ int main(int argc, char *argv[])
 
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Translates Linguist .ts files");
-    parser.addHelpOption();
-    parser.addVersionOption();
-
-    parser.addPositionalArgument("srcfile", QCoreApplication::translate("args", "Source translation file."));
-    parser.addPositionalArgument("tsfile", QCoreApplication::translate("args", "TS file to update."));
-
-    QCommandLineOption localeOption({"l", "languageCode"}, "Language code ex: \"fe\" or \"fr_CA\"", "pigLatin");
-    parser.addOption(localeOption);
+    parser.setApplicationDescription("Updates Linguist .ts files");
     parser.process(app);
 
 
