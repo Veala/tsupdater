@@ -15,10 +15,17 @@ enum CommandLineParseResult
     CommandLineHelpRequested
 };
 
-enum UpdateTsFileResult
+enum TsFileUpdateResult
 {
     UpdateOk,
     UpdateError
+};
+
+struct UpdaterInfo
+{
+    QString srcFilePath;
+    QString tsFilePath;
+    QString srcFileExt;
 };
 
 QStringList ValidSourceFileExtensions  = { "stf", "sdf" };
@@ -83,11 +90,11 @@ CommandLineParseResult parseCommandLine(QCommandLineParser &parser, QString *err
     return CommandLineOk;
 }
 
-UpdateTsFileResult updateTsFile(QStringList srcTsPaths, QString *errorMessage)
+TsFileUpdateResult updateTsFile(UpdaterInfo *updaterInfo, QString *errorMessage)
 {
-    QString srcFilePath = srcTsPaths.first();
-    QString tsFilePath = srcTsPaths.last();
+    if (updaterInfo->srcFileExt == "stf" || updaterInfo->srcFileExt == "sdf") {
 
+    }
 }
 
 #endif // FEATURES_H

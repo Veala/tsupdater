@@ -28,10 +28,15 @@ int main(int argc, char *argv[])
         Q_UNREACHABLE();
     }
 
-    const QStringList srcAndTsPaths = parser.positionalArguments();
-    switch (updateTsFile(srcAndTsPaths, &errorMessage)) {
+    UpdaterInfo updaterInfo;
+    updaterInfo.srcFilePath = parser.positionalArguments().first();
+    updaterInfo.tsFilePath = parser.positionalArguments().last();
+    QFileInfo srcFileInfo(updaterInfo.srcFilePath);
+    updaterInfo.srcFileExt = srcFileInfo.suffix();
+
+    switch (updateTsFile(&updaterInfo, &errorMessage)) {
     case UpdateOk:
-        printf("File %s is updated\n", qPrintable(srcAndTsPaths.last()));
+        printf("File %s is updated\n", qPrintable(updaterInfo.tsFilePath));
         return 0;
     case UpdateError:
         fputs(qPrintable(errorMessage), stderr);
