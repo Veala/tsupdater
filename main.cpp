@@ -1,5 +1,6 @@
 #include <QCoreApplication>
-#include <tsupdaterfeatures.h>
+#include "commandlinefeatures.h"
+#include "updater.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,7 +10,7 @@ int main(int argc, char *argv[])
     app.setApplicationVersion("1.0");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Updates Linguist \"ts\" files");
+    parser.setApplicationDescription("Updates Linguist \".ts\" files");
 
     QString errorMessage;
     switch (parseCommandLine(parser, &errorMessage)) {
@@ -28,19 +29,15 @@ int main(int argc, char *argv[])
         Q_UNREACHABLE();
     }
 
-    UpdaterInfo updaterInfo;
-    updaterInfo.srcFilePath = parser.positionalArguments().first();
-    updaterInfo.tsFilePath = parser.positionalArguments().last();
-    QFileInfo srcFileInfo(updaterInfo.srcFilePath);
-    updaterInfo.srcFileExt = srcFileInfo.suffix();
+    Updater updater;
+    updater.addPath(ArgNames.at(0), parser.positionalArguments().at(0));
+    updater.addPath(ArgNames.at(1), parser.positionalArguments().at(1));
+    updater.addPath(ArgNames.at(2), parser.positionalArguments().at(2));
 
-    switch (updateTsFile(&updaterInfo, &errorMessage)) {
-    case UpdateOk:
-        printf("File %s is updated\n", qPrintable(updaterInfo.tsFilePath));
+    switch (updater.updateFile()) {
+    case Updater::UpdateOk:
         return 0;
-    case UpdateError:
-        fputs(qPrintable(errorMessage), stderr);
-        fputs("\n\n", stderr);
+    case Updater::UpdateError:
         return 1;
     }
 
