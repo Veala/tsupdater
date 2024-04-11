@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "commandlinefeatures.h"
+#include "common.h"
 #include "updater.h"
 
 int main(int argc, char *argv[])

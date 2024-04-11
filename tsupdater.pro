@@ -20,7 +20,7 @@ SOURCES += \
         updater.cpp
 HEADERS += \
     commandlinefeatures.h \
-    commonfeatures.h \
+    common.h \
     updater.h
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

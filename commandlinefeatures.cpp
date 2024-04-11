@@ -1,8 +1,5 @@
-#include <QCommandLineParser>
-#include <QFileInfo>
-
-#include "commonfeatures.h"
-
+#include "commandlinefeatures.h"
+#include "common.h"
 
 int checkFile(int argNumber, const QStringList& positionalArguments, QString *errorMessage)
 {

@@ -4,8 +4,6 @@
 #include <QFileInfo>
 #include <QMap>
 
-#include "commonfeatures.h"
-
 class Updater
 {
 public:
@@ -16,24 +14,13 @@ public:
         UpdateError
     };
 
-    void addPath(QString argType, QString path) {
-        m_paths.insert(argType, path);
-    };
-
-    QString getPath(QString argType) {
-        return m_paths.value(argType);
-    }
-
+    void addPath(QString argType, QString path);
+    QString getPath(QString argType);
     virtual FileUpdateResult updateFile();
 
 private:
     QMap<QString, QString> m_paths;
-
-    QString getExtension(QString arg) {
-        QFileInfo fileInfo(m_paths.value(arg));
-        return fileInfo.suffix();
-    }
-
+    QString getExtension(QString arg);
 };
 
 
