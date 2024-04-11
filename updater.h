@@ -21,6 +21,7 @@ public:
 private:
     QMap<QString, QString> m_paths;
     QString getExtension(QString arg);
+    void writeError(QString errorMessage);
 };
 
 

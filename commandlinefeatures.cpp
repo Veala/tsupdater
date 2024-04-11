@@ -6,7 +6,7 @@ int checkFile(int argNumber, const QStringList& positionalArguments, QString *er
     QString filePath = positionalArguments.at(argNumber);
     QFileInfo fileinfo(filePath);
     if (!fileinfo.exists()) {
-        *errorMessage = QString("Error: \"%1\" is not exists.").arg(fileinfo.filePath());
+        *errorMessage = QString("Error: \"%1\" does not exist.").arg(fileinfo.filePath());
         return 1;
     }
     if (!ValidExtensions.at(argNumber).contains(fileinfo.suffix())) {
