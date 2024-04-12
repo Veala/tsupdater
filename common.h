@@ -3,15 +3,20 @@
 
 #include <QStringList>
 
-namespace  {
+struct InputData {
+    QString sdfFilePath;
+    QString stfFilePath;
+    QString gphFilePath;
+};
 
-QStringList ArgNames = { "sdffile", "stffile", "tsfile" };
+namespace {
 
-QList<QStringList> ValidExtensions = { { "sdf" }, { "stf" }, { "ts" }};
+QStringList PosArgNames = { "sdffile", "stffile" };
 
-QStringList Descriptions = { QString("Default file (\".%1\").").arg(ValidExtensions.at(0).join("\", \".")),
-                                   QString("Translation file (\".%1\").").arg(ValidExtensions.at(1).join("\", \".")),
-                                   QString("File to update (\".%1\").").arg(ValidExtensions.at(2).join("\", \".")) };
+QList<QStringList> PosArgValidExtensions = { { "sdf" }, { "stf" } };
+
+QStringList PosArgDescriptions = { QString("Default \".%1\" file.").arg(PosArgValidExtensions.at(0).join("\", \".")),
+                            QString("Translation \".%1\" file.").arg(PosArgValidExtensions.at(1).join("\", \"."))};
 
 }
 

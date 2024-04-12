@@ -1,22 +1,23 @@
-#ifndef UPDATER_H
-#define UPDATER_H
+#ifndef GPHCreator_H
+#define GPHCreator_H
 
 #include <QFileInfo>
 #include <QMap>
 
-class Updater
+class GPHCreator
 {
 public:
-    Updater();
-    enum FileUpdateResult
+    GPHCreator();
+
+    enum GPHCreateResult
     {
-        UpdateOk,
-        UpdateError
+        CreateOk,
+        CreateError
     };
 
     void addPath(QString argType, QString path);
     QString getPath(QString argType);
-    virtual FileUpdateResult updateFile();
+    virtual GPHCreateResult createGPHFile();
 
 private:
     QMap<QString, QString> m_paths;
@@ -25,4 +26,4 @@ private:
 };
 
 
-#endif // UPDATER_H
+#endif // GPHCreator_H

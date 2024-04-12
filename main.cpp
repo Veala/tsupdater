@@ -1,20 +1,21 @@
 #include <QCoreApplication>
 #include "commandlinefeatures.h"
 #include "common.h"
-#include "updater.h"
+#include "GPHCreator.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
     app.setOrganizationName("ICS");
-    app.setApplicationName("TS updater");
+    app.setApplicationName("GPH creator");
     app.setApplicationVersion("1.0");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Updates Linguist \".ts\" files");
+    parser.setApplicationDescription("Creates Linguist \".gph\" files");
 
     QString errorMessage;
-    switch (parseCommandLine(parser, &errorMessage)) {
+    InputData inputData;
+    switch (parseCommandLine(parser, &errorMessage, &inputData)) {
     case CommandLineOk:
         break;
     case CommandLineError:
@@ -30,15 +31,14 @@ int main(int argc, char *argv[])
         Q_UNREACHABLE();
     }
 
-    Updater updater;
-    updater.addPath(ArgNames.at(0), parser.positionalArguments().at(0));
-    updater.addPath(ArgNames.at(1), parser.positionalArguments().at(1));
-    updater.addPath(ArgNames.at(2), parser.positionalArguments().at(2));
+    GPHCreator creator;
+    creator.addPath(PosArgNames.at(0), parser.positionalArguments().at(0));
+    creator.addPath(PosArgNames.at(1), parser.positionalArguments().at(1));
 
-    switch (updater.updateFile()) {
-    case Updater::UpdateOk:
+    switch (creator.createGPHFile()) {
+    case GPHCreator::CreateOk:
         return 0;
-    case Updater::UpdateError:
+    case GPHCreator::CreateError:
         return 1;
     }
 

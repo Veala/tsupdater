@@ -1,23 +1,23 @@
-#include "updater.h"
+#include "GPHCreator.h"
 #include <QDomDocument>
 #include <iostream>
 
-Updater::Updater()
+GPHCreator::GPHCreator()
 {
 
 }
 
-void Updater::addPath(QString argType, QString path)
+void GPHCreator::addPath(QString argType, QString path)
 {
     m_paths.insert(argType, path);
 }
 
-QString Updater::getPath(QString argType)
+QString GPHCreator::getPath(QString argType)
 {
     return m_paths.value(argType);
 }
 
-Updater::FileUpdateResult Updater::updateFile()
+GPHCreator::GPHCreateResult GPHCreator::createGPHFile()
 {
     if (getExtension("sdffile") == "sdf" && getExtension("stffile") == "stf" && getExtension("tsfile") == "ts") {
         QDomDocument doc("sdfdocument");
@@ -25,12 +25,12 @@ Updater::FileUpdateResult Updater::updateFile()
         QString errorMessage;
         if (!file.open(QIODevice::ReadOnly)) {
             printf("Error: Updater can't open file \"%s\"", qPrintable(m_paths.value("sdffile")));
-            return UpdateError;
+            return CreateError;
         }
         if (!doc.setContent(&file, &errorMessage)) {
             printf("Error: \"%s\"", qPrintable(errorMessage));
             file.close();
-            return UpdateError;
+            return CreateError;
         }
         file.close();
 
@@ -56,21 +56,21 @@ Updater::FileUpdateResult Updater::updateFile()
         writeError("");
 
         printf("File \"%s\" is updated\n", qPrintable(getPath("tsfile")));
-        return Updater::UpdateOk;
+        return GPHCreator::CreateOk;
     } else {
         fputs(qPrintable(QString("Unknown algorithm")), stderr);
         fputs("\n\n", stderr);
-        return Updater::UpdateError;
+        return GPHCreator::CreateError;
     }
 }
 
-QString Updater::getExtension(QString arg)
+QString GPHCreator::getExtension(QString arg)
 {
     QFileInfo fileInfo(m_paths.value(arg));
     return fileInfo.suffix();
 }
 
-void Updater::writeError(QString errorMessage)
+void GPHCreator::writeError(QString errorMessage)
 {
     fputs(qPrintable(errorMessage), stderr);
     fputs("\n\n", stderr);
