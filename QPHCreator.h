@@ -1,5 +1,5 @@
-#ifndef GPHCreator_H
-#define GPHCreator_H
+#ifndef QPHCreator_H
+#define QPHCreator_H
 
 #include <QCommandLineParser>
 #include <QDomDocument>
@@ -16,7 +16,7 @@ QStringList PosArgDescriptions = { QString("Default \".%1\" file.").arg(PosArgVa
 
 }
 
-enum GPHCreateResult
+enum QPHCreateResult
 {
     CreateOk,
     CreateError
@@ -29,31 +29,34 @@ enum CommandLineParseResult
     CommandLineVersionRequested,
 };
 
-class GPHCreator
+class QPHCreator
 {
 public:
-    GPHCreator();
+    QPHCreator();
 
     CommandLineParseResult parseCommandLine();
-    virtual GPHCreateResult createGPHFile();
+    virtual QPHCreateResult createQPHFile();
 
 private:
     QString m_SDFFilePath;
     QString m_STFFilePath;
-    QString m_GPHFileDir;
-    QString m_GPHFileName;
-    QString m_languageCode;
+    QString m_QPHFileDir;
+    QString m_QPHFileName;
+    QString m_sourceLanguageCode;
+    QString m_translationLanguageCode;
 
     QCommandLineParser m_commandLineParser;
 
-    struct Data
+    struct TextEntry
     {
-        QString text;
-        QString description;
+    public:
+        TextEntry(QString text = "", QString description = "") : m_text(text), m_description(description) { }
+        QString m_text;
+        QString m_description;
     };
 
-    QMap<QString, Data> m_sdfData;
-    QMap<QString, Data> m_stfData;
+    QMap<QString, TextEntry> m_sdfData;
+    QMap<QString, TextEntry> m_stfData;
 
 private:
     int checkPositionalArgument(int argNumber, const QStringList& positionalArguments);
@@ -63,4 +66,4 @@ private:
 };
 
 
-#endif // GPHCreator_H
+#endif // QPHCreator_H
