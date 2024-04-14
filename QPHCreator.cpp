@@ -1,7 +1,8 @@
 #include "QPHCreator.h"
 #include <QFileInfo>
 #include <QDir>
-#include <iostream>
+
+//#define debug
 
 QPHCreator::QPHCreator()
 {
@@ -118,10 +119,10 @@ CommandLineParseResult QPHCreator::parseCommandLine()
 
 QPHCreateResult QPHCreator::createQPHFile()
 {
-    printf("SDF File \"%s\"\n", qPrintable(m_SDFFilePath));
-    printf("STF File \"%s\"\n", qPrintable(m_STFFilePath));
-    printf("QPH Dir \"%s\"\n", qPrintable(m_QPHFileDir));
-    printf("QPH File name \"%s\"\n", qPrintable(m_QPHFileName));
+    printf("SDF File: \"%s\"\n", qPrintable(m_SDFFilePath));
+    printf("STF File: \"%s\"\n", qPrintable(m_STFFilePath));
+    printf("QPH Dir: \"%s\"\n", qPrintable(m_QPHFileDir));
+    printf("QPH File name: \"%s\"\n", qPrintable(m_QPHFileName));
 
     QDomDocument sdfDoc("SDFDocument");
     if (openDomDocument(sdfDoc, m_SDFFilePath))
@@ -157,7 +158,7 @@ QPHCreateResult QPHCreator::createQPHFile()
     }
 
     if (sdfTextEnties.length() != stfTextEnties.length())
-        printf("WARNING! The number of \"Text Entries\" in SDF(%d) and STF(%d) documents is not equal.\n",
+        printf("WARNING: The number of TextEntry tags in SDF(%d) and STF(%d) documents is not equal.\n",
                sdfTextEnties.length(), stfTextEnties.length());
 
     QDomDocument qphDoc("QPH");
@@ -191,14 +192,18 @@ QPHCreateResult QPHCreator::createQPHFile()
 
     QMap<QString, TextEntry>::const_iterator stf_i = m_stfData.constBegin();
     while (stf_i != m_stfData.constEnd()) {
-//        printf("stf additional Parse!\n");
+#ifdef debug
+        printf("STF: Additional parse.\n");
+#endif
         QDomElement phrase = qphDoc.createElement("phrase");
         root.appendChild(phrase);
         QDomElement source = qphDoc.createElement("source");
         source.appendChild(qphDoc.createTextNode(""));
         QDomElement target = qphDoc.createElement("target");
-        QString testText = stf_i.value().m_text;
-//        printf("stf additional text: %s\n", qPrintable(testText));
+#ifdef debug
+        QString stfAdditionalData = stf_i.value().m_text;
+        printf("STF: Additional data: %s\n", qPrintable(stfAdditionalData));
+#endif
         target.appendChild(qphDoc.createTextNode(stf_i.value().m_text));
         QDomElement definition = qphDoc.createElement("definition");
         definition.appendChild(qphDoc.createTextNode(stf_i.value().m_description));
